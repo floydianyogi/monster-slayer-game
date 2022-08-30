@@ -29,6 +29,12 @@
           <div class="healthbar__value" :style="playerBarStyles"></div>
         </div>
       </section>
+      <section class="container" v-if="winner">
+        <h2>Game Over!</h2>
+        <h3 v-if="winner === 'monster'">You Lost!</h3>
+        <h3 v-else-if="winner === 'player'">You Won!</h3>
+        <h3 v-else>It's A Draw!</h3>
+      </section>
       <section id="controls">
         <button @click="attackMonster">ATTACK</button>
         <button :disabled="mayUseSpecialAttack" @click="specialAttackMonster">
@@ -44,3 +50,6 @@
     </div>
   </body>
 </html>
+
+<!-- The entire container can be shown with 'v-if', if indeed winner is truthy. By default at the beginning, it's null, and that is treated as a falsy value in JavaScript. 
+So if I said v-if="winner" and winner is null, this section will not show up because null is interpreted as false.-->

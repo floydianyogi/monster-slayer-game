@@ -8,6 +8,7 @@ const app = Vue.createApp({
       playerHealth: 100,
       monsterHealth: 100,
       currentRound: 0,
+      winner: null,
     };
   },
   computed: {
@@ -19,6 +20,26 @@ const app = Vue.createApp({
     },
     mayUseSpecialAttack() {
       return this.currentRound % 3 !== 0;
+    },
+  },
+  watch: {
+    playerHealth(value) {
+      if (value <= 0 && this.monsterHealth <= 0) {
+        // A Draw
+        this.winner = "draw";
+      } else if (value <= 0) {
+        // Player Lost
+        this.winner = "monster";
+      }
+    },
+    monsterHealth(value) {
+      if (value <= 0 && this.playerHealth <= 0) {
+        // A Draw
+        this.winner = "draw";
+      } else if (value <= 0) {
+        // Player Win
+        this.winner = "player";
+      }
     },
   },
   methods: {
@@ -52,3 +73,5 @@ const app = Vue.createApp({
 });
 
 app.mount("#game");
+
+// With Vue, we have a nicer way of keeping track of something and then doing something in reaction to that. We could add a 'watcher'.
